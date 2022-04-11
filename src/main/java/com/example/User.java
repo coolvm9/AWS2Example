@@ -6,12 +6,24 @@ import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbSortK
 
 @DynamoDbBean
     public class User {
-    private String userName;
+    private String userId;
     private String metadata;
     private  String firstName;
     private String lastName;
     private String emailId;
     private boolean subscribe;
+
+    @DynamoDbPartitionKey
+    public String getUserId() {
+        return userId;
+    }
+    public void setUserId(String userId) {
+        this.userId =  userId;
+    }
+    @DynamoDbSortKey
+    public String getMetadata() {
+        return metadata;
+    }
 
     public String getFirstName() {
         return firstName;
@@ -40,17 +52,7 @@ import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbSortK
         this.subscribe = subscribe;
     }
 
-    @DynamoDbPartitionKey
-    public String getUserName() {
-          return userName;
-      }
-    public void setUserName(String userName) {
-        this.userName = "UserName#"+userName;
-    }
-    @DynamoDbSortKey
-    public String getMetadata() {
-        return metadata;
-    }
+
 
     public void setMetadata(String metadata) {
         this.metadata = metadata;
