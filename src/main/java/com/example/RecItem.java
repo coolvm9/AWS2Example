@@ -19,7 +19,8 @@ public class RecItem {
 
     static final String ENTITY_RECORD = "R";
     static final String ENTITY_TYPE = "Rec";
-    private static final String ENTITY_PREFIX = "REC#";
+    private static final String PK_ENTITY_PREFIX = "USER#";
+    private static final String SK_ENTITY_PREFIX = "REC#";
 
     private String id;
     private String type;
@@ -29,8 +30,11 @@ public class RecItem {
 
 
 
-    static String prefixedId(String id) {
-        return ENTITY_PREFIX + id;
+    static String prefixedPKId(String id) {
+        return PK_ENTITY_PREFIX + id;
+    }
+    static String prefixedSKId(String id) {
+        return SK_ENTITY_PREFIX + id;
     }
 
     @DynamoDbAttribute("recId")
@@ -46,7 +50,7 @@ public class RecItem {
     @DynamoDbPartitionKey
     @DynamoDbAttribute("PK")
     public String getPartitionKey() {
-        return prefixedId(this.id);
+        return prefixedPKId(this.userId);
     }
 
     public void setPartitionKey(String partitionKey) {
@@ -56,14 +60,14 @@ public class RecItem {
     @DynamoDbSortKey
     @DynamoDbAttribute("SK")
     public String getSortKey() {
-        return ENTITY_RECORD;
+        return prefixedSKId(id);
     }
 
     public void setSortKey(String sortKey) {
         // Do nothing, this is a derived attribute
     }
 
-    @DynamoDbAttribute("type")
+    @DynamoDbAttribute("entityType")
     public String getType() {
         return ENTITY_TYPE;
     }

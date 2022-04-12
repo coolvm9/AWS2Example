@@ -138,6 +138,8 @@ public class DymanoDB {
         userTable.deleteItem(newUser);
     }
 
+
+
     private DynamoDbEnhancedClient initDynamoDbClient() {
       /*  DynamoDbClient ddb = DynamoDbClient.builder()
                 .endpointOverride(URI.create("http://localhost:8000"))

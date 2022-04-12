@@ -19,7 +19,8 @@ public class StyleItem {
 
     static final String ENTITY_RECORD = "S";
     static final String ENTITY_TYPE = "Style";
-    private static final String ENTITY_PREFIX = "STYLE#";
+    private static final String PK_ENTITY_PREFIX = "USER#";
+    private static final String SK_ENTITY_PREFIX = "STYLE#";
 
     private String id;
     private String type;
@@ -28,8 +29,11 @@ public class StyleItem {
 
 
 
-    static String prefixedId(String id) {
-        return ENTITY_PREFIX + id;
+    static String prefixedPKId(String id) {
+        return PK_ENTITY_PREFIX + id;
+    }
+    static String prefixedSKId(String id) {
+        return SK_ENTITY_PREFIX + id;
     }
 
     @DynamoDbAttribute("styleId")
@@ -45,7 +49,7 @@ public class StyleItem {
     @DynamoDbPartitionKey
     @DynamoDbAttribute("PK")
     public String getPartitionKey() {
-        return prefixedId(this.id);
+        return prefixedPKId(this.userId);
     }
 
     public void setPartitionKey(String partitionKey) {
@@ -55,14 +59,14 @@ public class StyleItem {
     @DynamoDbSortKey
     @DynamoDbAttribute("SK")
     public String getSortKey() {
-        return ENTITY_RECORD;
+        return prefixedSKId(id);
     }
 
     public void setSortKey(String sortKey) {
         // Do nothing, this is a derived attribute
     }
 
-    @DynamoDbAttribute("type")
+    @DynamoDbAttribute("entityType")
     public String getType() {
         return ENTITY_TYPE;
     }
@@ -72,7 +76,7 @@ public class StyleItem {
     public void setType(String type) {
         if (!ENTITY_TYPE.equals(type)) {
             // This can happen when performing a Scan on a table of heterogeneous items
-            throw new IllegalArgumentException("Attempted marshall into Customer an item of Type=" + type);
+            throw new IllegalArgumentException("Attempted marshall into Style an item of Type=" + type);
         }
     }
 

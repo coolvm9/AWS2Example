@@ -56,7 +56,7 @@ public class UserItem {
         // Do nothing, this is a derived attribute
     }
 
-    @DynamoDbAttribute("type")
+    @DynamoDbAttribute("entityType")
     public String getType() {
         return ENTITY_TYPE;
     }
